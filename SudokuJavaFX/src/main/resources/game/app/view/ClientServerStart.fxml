@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.BorderPane?>
+
+<BorderPane xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.controller.ClientServerStartController">
+   <center>
+      <Pane prefHeight="316.0" prefWidth="390.0" BorderPane.alignment="CENTER">
+         <children>
+            <RadioButton id="rbtnServer" fx:id="rbtnServer" layoutX="38.0" layoutY="87.0" mnemonicParsing="false" onAction="#optServerClientSelected" selected="true" text="Start A New Game">
+               <toggleGroup>
+                  <ToggleGroup fx:id="tglGameButton" />
+               </toggleGroup>
+            </RadioButton>
+            <RadioButton id="rbtnClient" fx:id="rbtnClient" layoutX="38.0" layoutY="153.0" mnemonicParsing="false" onAction="#optServerClientSelected" text="Connect to existing game" toggleGroup="$tglGameButton" />
+            <TextField id="txtServerPort" fx:id="txtServerPort" layoutX="116.0" layoutY="115.0" prefHeight="25.0" prefWidth="95.0" text="9001" />
+            <Label layoutX="35.0" layoutY="119.0" text="Listen on port:" />
+            <Label layoutX="38.0" layoutY="181.0" text="Computer: " />
+            <TextField id="txtComputerName" fx:id="txtComputerName" disable="true" layoutX="116.0" layoutY="177.0" prefHeight="25.0" prefWidth="243.0" text="localhost" />
+            <Label layoutX="38.0" layoutY="210.0" text="Port Number:" />
+            <TextField id="txtClientPort" fx:id="txtClientPort" disable="true" layoutX="116.0" layoutY="206.0" prefHeight="25.0" prefWidth="95.0" text="9001" />
+            <Button id="btnOK" layoutX="42.0" layoutY="266.0" mnemonicParsing="false" onAction="#btnOK" prefWidth="100.0" text="OK" />
+            <Button id="btnCancel" layoutX="156.0" layoutY="266.0" mnemonicParsing="false" onAction="#btnCancel" prefWidth="100.0" text="Cancel" />
+            <TextField id="txtPlayerName" fx:id="txtPlayerName" layoutX="116.0" layoutY="35.0" prefHeight="25.0" prefWidth="154.0" promptText="Enter Player Name" />
+            <Label layoutX="42.0" layoutY="39.0" text="Player Name:" />
+            <Line endX="175.0" layoutX="141.0" layoutY="72.0" startX="-100.0" />
+         </children>
+      </Pane>
+   </center>
+</BorderPane>

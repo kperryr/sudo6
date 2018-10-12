@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+
+<AnchorPane fx:id="mainAnchor" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.controller.BlackJackController">
+   <children>
+      <BorderPane fx:id="OuterBorderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="615.0" prefWidth="618.0" style="-fx-background-color: green;">
+         <bottom>
+            <HBox alignment="CENTER" prefHeight="144.0" prefWidth="879.0" style="-fx-background-color: green;" BorderPane.alignment="BOTTOM_CENTER">
+               <children>
+                  <GridPane alignment="BOTTOM_CENTER" prefHeight="132.0" prefWidth="540.0">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="195.0" minWidth="10.0" prefWidth="155.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="379.0" minWidth="10.0" prefWidth="379.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints maxHeight="76.0" minHeight="10.0" prefHeight="76.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="50.0" minHeight="10.0" prefHeight="20.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="50.0" minHeight="10.0" prefHeight="50.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <children>
+                        <HBox alignment="CENTER_LEFT" prefHeight="2.0" prefWidth="325.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                           <children>
+                              <FlowPane alignment="CENTER" prefHeight="50.0" prefWidth="196.0" rowValignment="TOP">
+                                 <children>
+                                    <Button id="btnHitP1" mnemonicParsing="false" onAction="#btnHit_Click" prefWidth="80.0" text="Hit">
+                                       <FlowPane.margin>
+                                          <Insets />
+                                       </FlowPane.margin>
+                                    </Button>
+                                    <Button id="btnStandP1" mnemonicParsing="false" onAction="#btnStand_Click" prefWidth="80.0" text="Stand" />
+                                 </children>
+                              </FlowPane>
+                           </children>
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
+                        </HBox>
+                        <HBox fx:id="hboxP1Cards" alignment="BOTTOM_LEFT" prefHeight="71.0" prefWidth="365.0" GridPane.columnIndex="1" />
+                        <HBox id="txtPlayer1Name" prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="1" />
+                        <HBox prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="2">
+                           <children>
+                              <FlowPane alignment="CENTER" prefHeight="46.0" prefWidth="158.0">
+                                 <children>
+                                    <ToggleButton id="btnPos1SitLeave" fx:id="btnPos1SitLeave" minWidth="65.0" mnemonicParsing="false" onAction="#btnSitLeave_Click" styleClass="togglebutton" text="Sit" />
+                                    <ImageView id="imgViewDealerButtonPos1" fx:id="imgViewDealerButtonPos31" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../../../resources/img/d-button.png" />
+                                       </image>
+                                       <FlowPane.margin>
+                                          <Insets left="25.0" right="25.0" />
+                                       </FlowPane.margin>
+                                    </ImageView>
+                                 </children>
+                              </FlowPane>
+                           </children>
+                        </HBox>
+                        <Label id="lblPlayerPos3" fx:id="lblNameP1" text="Player 1" />
+                     </children>
+                  </GridPane>
+               </children>
+            </HBox>
+         </bottom>
+         <center>
+            <AnchorPane nodeOrientation="LEFT_TO_RIGHT" prefHeight="329.0" prefWidth="464.0" BorderPane.alignment="CENTER_LEFT">
+               <children>
+                  <GridPane layoutX="67.0" layoutY="50.0" prefHeight="200.0" prefWidth="483.0">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="195.0" minWidth="10.0" prefWidth="82.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="401.0" minWidth="10.0" prefWidth="401.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints maxHeight="0.0" minHeight="0.0" prefHeight="0.0" />
+                      <RowConstraints maxHeight="125.0" minHeight="10.0" prefHeight="125.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="61.0" minHeight="10.0" prefHeight="10.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="55.0" minHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <HBox id="hBoxDeck" fx:id="hBoxDeck" prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="2" />
+                        <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                           <children>
+                              <Button id="btnStartGame" fx:id="btnStartGame" mnemonicParsing="false" onAction="#btnStart_Click" prefWidth="100.0" text="Start" />
+                           </children>
+                        </HBox>
+                        <HBox fx:id="hboxCommunity" alignment="BOTTOM_LEFT" prefHeight="95.0" prefWidth="221.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                           <GridPane.margin>
+                              <Insets bottom="15.0" top="15.0" />
+                           </GridPane.margin>
+                        </HBox>
+                        <GridPane GridPane.columnIndex="1" GridPane.rowIndex="3">
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <children>
+                              <Label fx:id="lblWinningPlayer" text="Winner" />
+                              <Label fx:id="lblWinningHand" text="Win Hand" GridPane.columnIndex="1" />
+                           </children>
+                        </GridPane>
+                        <HBox fx:id="hboxDeck" GridPane.rowIndex="1">
+                           <padding>
+                              <Insets bottom="15.0" right="15.0" />
+                           </padding></HBox>
+                     </children>
+                  </GridPane>
+                  <Label id="lblNumberOfPlayers" fx:id="lblNumberOfPlayers" layoutX="28.0" layoutY="27.0" prefHeight="21.0" prefWidth="127.0" />
+               </children>
+            </AnchorPane>
+         </center>
+         <top>
+            <HBox alignment="CENTER" prefHeight="142.0" prefWidth="879.0" BorderPane.alignment="CENTER">
+               <children>
+                  <GridPane alignment="BOTTOM_CENTER" prefHeight="132.0" prefWidth="540.0">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="195.0" minWidth="10.0" prefWidth="155.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="379.0" minWidth="10.0" prefWidth="379.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints maxHeight="76.0" minHeight="10.0" prefHeight="76.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="50.0" minHeight="10.0" prefHeight="20.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="50.0" minHeight="10.0" prefHeight="50.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <children>
+                        <HBox alignment="CENTER_LEFT" prefHeight="2.0" prefWidth="325.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                           <children>
+                              <FlowPane alignment="CENTER" prefHeight="46.0" prefWidth="168.0" rowValignment="TOP">
+                                 <children>
+                                    <Button id="btnHitP2" mnemonicParsing="false" onAction="#btnHit_Click" prefWidth="80.0" text="Hit">
+                                       <FlowPane.margin>
+                                          <Insets />
+                                       </FlowPane.margin>
+                                    </Button>
+                                    <Button id="btnStandP2" mnemonicParsing="false" onAction="#btnStand_Click" prefWidth="80.0" text="Stand" />
+                                 </children>
+                              </FlowPane>
+                           </children>
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
+                        </HBox>
+                        <HBox fx:id="hboxP2Cards" alignment="BOTTOM_LEFT" prefHeight="71.0" prefWidth="365.0" GridPane.columnIndex="1" />
+                        <HBox id="txtPlayer1Name" prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="1" />
+                        <HBox prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="2">
+                           <children>
+                              <FlowPane alignment="CENTER" prefHeight="46.0" prefWidth="158.0">
+                                 <children>
+                                    <ToggleButton id="btnPos2SitLeave" fx:id="btnPos2SitLeave" minWidth="65.0" mnemonicParsing="false" onAction="#btnSitLeave_Click" styleClass="togglebutton" text="Sit" />
+                                    <ImageView id="imgViewDealerButtonPos2" fx:id="imgViewDealerButtonPos3" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../../../resources/img/d-button.png" />
+                                       </image>
+                                       <FlowPane.margin>
+                                          <Insets left="25.0" right="25.0" />
+                                       </FlowPane.margin>
+                                    </ImageView>
+                                 </children>
+                              </FlowPane>
+                           </children>
+                        </HBox>
+                        <Label id="lblPlayerPos3" fx:id="lblNameP2" text="Player 2" />
+                     </children>
+                  </GridPane>
+               </children>
+               <padding>
+                  <Insets top="10.0" />
+               </padding>
+               <BorderPane.margin>
+                  <Insets top="15.0" />
+               </BorderPane.margin>
+            </HBox>
+         </top>
+      </BorderPane>
+   </children>
+</AnchorPane>
