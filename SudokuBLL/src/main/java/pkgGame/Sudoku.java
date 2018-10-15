@@ -1,12 +1,12 @@
 package pkgGame;
 
+import java.io.Serializable;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Objects;
 import java.util.Random;
 
@@ -24,7 +24,7 @@ import pkgHelper.PuzzleViolation;
  * @author Bert.Gibbons
  *
  */
-public class Sudoku extends LatinSquare {
+public class Sudoku extends LatinSquare implements Serializable {
 
 	/**
 	 * 
@@ -45,7 +45,7 @@ public class Sudoku extends LatinSquare {
 
 	private int iSqrtSize;
 
-	private HashMap<Integer, Cell> cells = new HashMap<Integer, Cell>();
+	private HashMap<Integer, SudokuCell> cells = new HashMap<Integer, SudokuCell>();
 	
 	/**
 	 * Sudoku - for Lab #2... do the following:
@@ -117,7 +117,7 @@ public class Sudoku extends LatinSquare {
 	private void SetCells() {
 		for (int iRow = 0; iRow < iSize; iRow++) {
 			for (int iCol = 0; iCol < iSize; iCol++) {
-				Cell c = new Cell(iRow, iCol);
+				SudokuCell c = new SudokuCell(iRow, iCol);
 				c.setlstValidValues(getAllValidCellValues(iCol, iRow));
 				c.ShuffleValidValues();
 				cells.put(c.hashCode(), c);
@@ -129,7 +129,7 @@ public class Sudoku extends LatinSquare {
 		for (int iRow = 0; iRow < iSize; iRow++) {
 			for (int iCol = 0; iCol < iSize; iCol++) {
 
-				Cell c = cells.get(Objects.hash(iRow, iCol));
+				SudokuCell c = cells.get(Objects.hash(iRow, iCol));
 				for (Integer i: c.getLstValidValues())
 				{
 					System.out.print(i + " ");
@@ -368,7 +368,7 @@ public class Sudoku extends LatinSquare {
 	 * @param iValue
 	 * @return
 	 */
-	public boolean isValidValue(Cell c, int iValue) {
+	public boolean isValidValue(SudokuCell c, int iValue) {
 		return this.isValidValue(c.getiRow(), c.getiCol(), iValue);
 	}
 	
@@ -446,7 +446,7 @@ public class Sudoku extends LatinSquare {
 	 * @param c - Cell that you're trying to fill
 	 * @return
 	 */
-	private boolean fillRemaining(Cell c) {
+	private boolean fillRemaining(SudokuCell c) {
 			
 		if (c == null)
 			return true;
@@ -559,29 +559,14 @@ public class Sudoku extends LatinSquare {
 	 * @author Bert.Gibbons
 	 *
 	 */
-	private class Cell {
+	private class SudokuCell extends Cell {
 
 		private int iRow;
 		private int iCol;
 		private ArrayList<Integer> lstValidValues = new ArrayList<Integer>();
 
-		public Cell(int iRow, int iCol) {
-			super();
-			this.iRow = iRow;
-			this.iCol = iCol;
-		}
-
-		public int getiRow() {
-			return iRow;
-		}
-
-		public int getiCol() {
-			return iCol;
-		}
-
-		@Override
-		public int hashCode() {
-			return Objects.hash(iRow, iCol);
+		public SudokuCell(int iRow, int iCol) {
+			super(iRow, iCol);
 		}
 
 		@Override
@@ -590,10 +575,10 @@ public class Sudoku extends LatinSquare {
 			if (o == this)
 				return true;
 
-			if (!(o instanceof Cell)) {
+			if (!(o instanceof SudokuCell)) {
 				return false;
 			}
-			Cell c = (Cell) o;
+			SudokuCell c = (SudokuCell) o;
 			return iCol == c.iCol && iRow == c.iRow;
 
 		}
@@ -620,7 +605,7 @@ public class Sudoku extends LatinSquare {
 		 * @param iSize
 		 * @return
 		 */
-		public Cell GetNextCell(Cell c) {
+		public SudokuCell GetNextCell(SudokuCell c) {
 			
 			int iCol = c.getiCol() + 1;
 			int iRow = c.getiRow();
@@ -648,7 +633,7 @@ public class Sudoku extends LatinSquare {
 				}
 			}
 
-			return (Cell)cells.get(Objects.hash(iRow,iCol));		
+			return (SudokuCell)cells.get(Objects.hash(iRow,iCol));		
 
 		}
 	}

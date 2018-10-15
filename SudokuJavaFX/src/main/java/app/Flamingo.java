@@ -9,15 +9,13 @@ import app.hub.GameHub;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import netgame.common.Client;
-import pkgCore.GamePlay;
-import pkgCore.Player;
-import pkgCore.Table;
+import pkgGame.Player;
+import pkgGame.Sudoku;
 
 public class Flamingo extends Application {
 	
@@ -194,14 +192,14 @@ public class Flamingo extends Application {
 				{				
 					System.out.println("Message Received from hub " + message);
 				}
-				else if (message instanceof Table)
+				else if (message instanceof Sudoku)
 				{
-					BJC.HandleTableState((Table)message); 
+					//BJC.HandleTableState((Table)message); 
 				}
-				else if (message instanceof GamePlay)
-				{
-					
-				}
+//				else if (message instanceof GamePlay)
+//				{
+//					
+//				}
 				
 			});
 		}

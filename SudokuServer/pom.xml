@@ -45,6 +45,17 @@
 		<!-- Spring and Transactions -->
 
 		<!-- Logging with SLF4J & LogBack -->
+
+		<dependency>
+			<groupId>cisc.edu</groupId>
+			<artifactId>SudokuBLL</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>cisc.edu</groupId>
+			<artifactId>SudokuJabber</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>		
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>

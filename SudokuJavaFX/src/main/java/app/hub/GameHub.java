@@ -3,18 +3,12 @@ package app.hub;
 import java.io.IOException;
 
 import netgame.common.Hub;
-import pkgCore.Action;
-import pkgCore.GamePlay;
-import pkgCore.Table;
-import pkgEnum.eAction;
-import pkgEnum.eGameType;
+import pkgGame.Sudoku;
 
 public class GameHub extends Hub {
 
-	private Table HubPokerTable = null;
-	private GamePlay HubGamePlay = null;
-	private eGameType eGameType = null;
-
+	private Sudoku HubSudoku = null;
+	
 	public GameHub(int port) throws IOException {
 		super(port);
 		this.setAutoreset(true);
@@ -25,8 +19,8 @@ public class GameHub extends Hub {
 
 		System.out.println("Action received from the hub");
 		
-		if (HubPokerTable == null)
-			HubPokerTable = new Table();
+		if (HubSudoku == null)
+			HubSudoku = new Sudoku(9);
 		
 		if (message instanceof Action) {
 			
