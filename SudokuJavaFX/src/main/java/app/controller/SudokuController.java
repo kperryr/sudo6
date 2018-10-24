@@ -6,7 +6,7 @@ import java.util.ResourceBundle;
 import app.Game;
 import javafx.fxml.Initializable;
 
-public class GameBorderController implements Initializable  {
+public class SudokuController  implements Initializable {
 
 	private Game game;	
 	@Override
@@ -16,5 +16,4 @@ public class GameBorderController implements Initializable  {
 	{
 		this.game = game;
 	}
-	
 }
