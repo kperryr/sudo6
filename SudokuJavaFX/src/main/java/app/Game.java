@@ -9,16 +9,16 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import pkgGame.Sudoku;
 
 public class Game extends Application {
 
 	private Stage primaryStage;
 	private GameBorderController GBC = null;
-	private SudokuController  SC = null;
-	
-	
+	private SudokuController  SC = null;	
 	private BorderPane GameBorderPane = null;
-	private BorderPane SudokuPane = null; 
+	private Sudoku sudoku = null;
+
 
 	public static void main(String[] args) {
 		launch(args);
@@ -43,7 +43,7 @@ public class Game extends Application {
 			primaryStage.setScene(scene);
 			GBC = loader.getController();
 			GBC.setMainApp(this);
-			primaryStage.show();
+			//primaryStage.show();
 
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -55,17 +55,30 @@ public class Game extends Application {
 
 			FXMLLoader loader = new FXMLLoader();
 			loader = new FXMLLoader(getClass().getResource("/game/app/view/Sudoku.fxml"));
-			SudokuPane = (BorderPane) loader.load();
-			Scene scene = new Scene(SudokuPane);
-			primaryStage.setScene(scene);
+			BorderPane SudokuPane = (BorderPane) loader.load();			
+			GameBorderPane.setCenter(SudokuPane);
 			SC = loader.getController();
 			SC.setMainApp(this);
-
 			primaryStage.show();
 
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
+
+	public Sudoku getSudoku() {
+		return sudoku;
+	}
+
+	public Sudoku StartSudoku(int iSize) {
+		try {
+			this.sudoku = new Sudoku(iSize);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return this.sudoku;
+	}
+
 
 }

@@ -5,25 +5,59 @@
 .root{
 	-fx-background-color: green;
 }
+
+ 
+.GridPane {
+
+-fx-background-insets: 0.0, 0.0 1.0 1.0 0.0 ;
+	
+}
+ 
+.game-grid-cell {
+    -fx-background-color: black, white ;
+    -fx-background-insets: 0, 0 1 1 0 ;
+}
+.game-grid-cell.first-row {
+    -fx-background-insets: 0, 1 1 1 0 ;
+}
+.game-grid-cell.first-column {
+    -fx-background-insets: 0, 0 1 1 1 ;
+}
+.game-grid-cell.first-row.first-column {
+    -fx-background-insets: 0, 1 ;
+}
+
+/*
+.GridPane {
+* -fx-grid-lines-visible: true;
+	
+	-fx-border-color: blue;
+    -fx-border-insets: 5.0;
+    -fx-border-width: 3.0;
+    -fx-border-style: dashed;
+	-fx-grid-lines-visible: true;
+}
+ */
+ 
 .label {
-    -fx-font-size: 11pt;
+    -fx-font-size: 11.0pt;
     -fx-font-family: "Segoe UI Semibold";
     -fx-text-fill: black;
     -fx-opacity: 0.6;
 }
 
 .label-bright {
-    -fx-font-size: 11pt;
+    -fx-font-size: 11.0pt;
     -fx-font-family: "Segoe UI Semibold";
     -fx-text-fill: black;
-    -fx-opacity: 1;
+    -fx-opacity: 1.0;
 }
 
 .label-header {
-    -fx-font-size: 32pt;
+    -fx-font-size: 32.0pt;
     -fx-font-family: "Segoe UI Light";
     -fx-text-fill: white;
-    -fx-opacity: 1;
+    -fx-opacity: 1.0;
 }
 
 .table-view {
@@ -32,7 +66,7 @@
     -fx-background-color: #1d1d1d;
     -fx-table-cell-border-color: transparent;
     -fx-table-header-border-color: transparent;
-    -fx-padding: 5;
+    -fx-padding: 5.0;
 }
 
 .table-view .column-header-background {
@@ -40,23 +74,23 @@
 }
 
 .table-view .column-header, .table-view .filler {
-    -fx-size: 35;
-    -fx-border-width: 0 0 1 0;
+    -fx-size: 35.0;
+    -fx-border-width: 0.0 0.0 1.0 0.0;
     -fx-background-color: transparent;
     -fx-border-color: 
         transparent
         transparent
-        derive(-fx-base, 80%) 
+        derive(-fx-base, 80.0%) 
         transparent;
-    -fx-border-insets: 0 10 1 0;
+    -fx-border-insets: 0.0 10.0 1.0 0.0;
 }
 
 .table-view .column-header .label {
-    -fx-font-size: 20pt;
+    -fx-font-size: 20.0pt;
     -fx-font-family: "Segoe UI Light";
     -fx-text-fill: white;
     -fx-alignment: center-left;
-    -fx-opacity: 1;
+    -fx-opacity: 1.0;
 }
 
 .table-view:focused .table-row-cell:filled:focused:selected {
@@ -65,23 +99,23 @@
 
 .split-pane:horizontal > .split-pane-divider {
     -fx-border-color: transparent #1d1d1d transparent #1d1d1d;
-    -fx-background-color: transparent, derive(#1d1d1d,20%);
+    -fx-background-color: transparent, derive(#1d1d1d,20.0%);
 }
 
 .split-pane {
-    -fx-padding: 1 0 0 0;
+    -fx-padding: 1.0 0.0 0.0 0.0;
 }
 
 .menu-bar {
-    -fx-background-color: derive(#1d1d1d,20%);
+    -fx-background-color: derive(#1d1d1d,20.0%);
 }
 
 .context-menu {
-    -fx-background-color: derive(#1d1d1d,50%);
+    -fx-background-color: derive(#1d1d1d,50.0%);
 }
 
 .menu-bar .label {
-    -fx-font-size: 14pt;
+    -fx-font-size: 14.0pt;
     -fx-font-family: "Segoe UI Light";
     -fx-text-fill: white;
     -fx-opacity: 0.9;
@@ -92,33 +126,34 @@
 }
 
 .text-field {
-    -fx-font-size: 12pt;
+    -fx-font-size: 12.0pt;
     -fx-font-family: "Segoe UI Semibold";
 }
 
  
  .togglebutton {
-    -fx-padding: 5 22 5 22;   
+    -fx-padding: 5.0 22.0 5.0 22.0;   
     -fx-border-color: #e2e2e2;
-    -fx-border-width: 2;
-    -fx-background-radius: 0;
+    -fx-border-width: 2.0;
+    -fx-background-radius: 0.0;
     -fx-background-color: #1d1d1d;
     -fx-font-family: "Segoe UI", Helvetica, Arial, sans-serif;
-    -fx-font-size: 8pt;
+    -fx-font-size: 8.0pt;
     -fx-text-fill: #d8d8d8;
-    -fx-background-insets: 0 0 0 0, 0, 1, 2;
+    -fx-background-insets: 0.0 0.0 0.0 0.0, 0.0, 1.0, 2.0;
 }
 
 .button {
-    -fx-padding: 5 22 5 22;   
+	
+    -fx-padding: 5.0 22.0 5.0 22.0;   
     -fx-border-color: #e2e2e2;
-    -fx-border-width: 2;
-    -fx-background-radius: 0;
+    -fx-border-width: 2.0;
+    -fx-background-radius: 0.0;
     -fx-background-color: #1d1d1d;
     -fx-font-family: "Segoe UI", Helvetica, Arial, sans-serif;
-    -fx-font-size: 8pt;
+    -fx-font-size: 8.0pt;
     -fx-text-fill: #d8d8d8;
-    -fx-background-insets: 0 0 0 0, 0, 1, 2;
+    -fx-background-insets: 0.0 0.0 0.0 0.0, 0.0, 1.0, 2.0;
 }
 
 .button:hover {
@@ -132,10 +167,10 @@
 
 .button:focused {
     -fx-border-color: white, white;
-    -fx-border-width: 1, 1;
-    -fx-border-style: solid, segments(1, 1);
-    -fx-border-radius: 0, 0;
-    -fx-border-insets: 1 1 1 1, 0;
+    -fx-border-width: 1.0, 1.0;
+    -fx-border-style: solid, segments(1.0, 1.0);
+    -fx-border-radius: 0.0, 0.0;
+    -fx-border-insets: 1.0 1.0 1.0 1.0, 0.0;
 }
 
 .button:disabled, .button:default:disabled {
@@ -150,5 +185,5 @@
 }
 
 .button:default:hover {
-    -fx-background-color: derive(-fx-focus-color,30%);
+    -fx-background-color: derive(-fx-focus-color,30.0%);
 }

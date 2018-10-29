@@ -1,0 +1,26 @@
+.GridPane {
+
+-fx-background-insets: 0.0, 0.0 5.0 5.0 0.0 ;
+	
+}
+ 
+.game-grid-cell {
+    -fx-background-color: black, white ;
+    -fx-background-insets: 0.0, 0.0 1.0 1.0 0.0 ;
+}
+.game-grid-cell.first-row {
+    -fx-background-insets: 0.0, 1.0 1.0 1.0 0.0 ;
+}
+.game-grid-cell.first-column {
+    -fx-background-insets: 0.0, 0.0 1.0 1.0 1.0 ;
+}
+.game-grid-cell.first-row.first-column {
+    -fx-background-insets: 0.0, 1.0 ;
+}
+
+.my-grid-pane {
+    -fx-background-color: lightgray;
+    -fx-vgap: 5;
+    -fx-hgap: 5;
+    -fx-padding: 5;
+}

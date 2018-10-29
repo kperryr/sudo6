@@ -1,8 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
-
-<BorderPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.111" fx:controller="app.controller.SudokuController">
-	<!-- TODO Add Nodes -->
+<BorderPane prefHeight="500.0" prefWidth="500.0" stylesheets="@GameTheme.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.controller.SudokuController">
+   <bottom>
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button mnemonicParsing="false" onAction="#ButtonPush" text="Start Game" />
+            <Button mnemonicParsing="false" text="End Game" />
+         </children></HBox>
+   </bottom>
+   <top>
+      <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+   </top>
+   <center>
+      <VBox fx:id="vboxCenter" alignment="CENTER" maxWidth="300.0" BorderPane.alignment="CENTER" />
+   </center>
 </BorderPane>

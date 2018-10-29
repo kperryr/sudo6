@@ -102,6 +102,28 @@ public class Sudoku extends LatinSquare implements Serializable {
 
 	}
 
+	
+	/**
+	 * getiSize - the UI needs to know the size of the puzzle
+	 *
+	 * 
+	 * @version 1.5
+	 * @since Lab #5
+	 */
+	public int getiSize() {
+		return iSize;
+	}
+
+	
+	public static boolean isRegionBoundary(double dSize)
+	{
+		double SQRT = Math.sqrt(dSize);
+		if ((SQRT == Math.floor(SQRT)) && !Double.isInfinite(SQRT)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 	/**
 	 * SetCells - purpose of this method is to create a HashMap of all the cells
 	 * in the puzzle.  If the puzzle is 9X9, there will be 81 cells in the puzzle.
