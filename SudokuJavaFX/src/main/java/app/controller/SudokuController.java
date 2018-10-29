@@ -21,6 +21,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
+import pkgEnum.eGameDifficulty;
 import pkgGame.Sudoku;
 
 public class SudokuController implements Initializable {
@@ -45,7 +46,7 @@ public class SudokuController implements Initializable {
 	}
 
 	private void BuildGrid() {
-		Sudoku s = game.StartSudoku(9);
+		Sudoku s = game.StartSudoku(9, eGameDifficulty.MEDIUM);
 
 		vboxCenter.getChildren().clear();
 		GridPane gridPane = new GridPane();
@@ -70,8 +71,13 @@ public class SudokuController implements Initializable {
 
 			for (int iRow = 0; iRow < s.getiSize(); iRow++) {
 				Pane pane = new Pane();
-				ImageView iv = new ImageView(GetImage(s.getPuzzle()[iRow][iCol]));				
-				pane.getChildren().add(iv);		
+				if (s.getPuzzle()[iRow][iCol] != 0)
+				{
+					ImageView iv = new ImageView(GetImage(s.getPuzzle()[iRow][iCol]));
+					pane.getChildren().add(iv);		
+				}
+								
+				
 				
                 pane.getStyleClass().add("game-grid-cell");
                 if (iCol == 0) {

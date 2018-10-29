@@ -9,6 +9,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import pkgEnum.eGameDifficulty;
 import pkgGame.Sudoku;
 
 public class Game extends Application {
@@ -70,9 +71,9 @@ public class Game extends Application {
 		return sudoku;
 	}
 
-	public Sudoku StartSudoku(int iSize) {
+	public Sudoku StartSudoku(int iSize, eGameDifficulty eGD) {
 		try {
-			this.sudoku = new Sudoku(iSize);
+			this.sudoku = new Sudoku(iSize, eGD);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
