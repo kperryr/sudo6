@@ -41,6 +41,7 @@ public class Game extends Application {
 			loader = new FXMLLoader(getClass().getResource("/game/app/view/GameBorder.fxml"));
 			GameBorderPane = (BorderPane) loader.load();
 			Scene scene = new Scene(GameBorderPane);
+			
 			primaryStage.setScene(scene);
 			GBC = loader.getController();
 			GBC.setMainApp(this);

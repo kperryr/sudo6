@@ -139,6 +139,12 @@ public class Sudoku extends LatinSquare implements Serializable {
 
 	}
 
+	
+	public int getiSqrtSize() {
+		return iSqrtSize;
+	}
+
+
 	/**
 	 * RemoveCells - this method will remove cells (set them to zero) until the game's difficulty is met
 	 * @version 1.5
@@ -175,11 +181,12 @@ public class Sudoku extends LatinSquare implements Serializable {
 		
 		if (eActualGameDifficulty == null)
 			return false;
-		if (eActualGameDifficulty == this.eGameDifficulty)
+		if (eActualGameDifficulty.getiDifficulty() >= this.eGameDifficulty.getiDifficulty())
 			return true;
 		
 		return false;
 	}
+	
 	/**
 	 * getiSize - the UI needs to know the size of the puzzle
 	 *
