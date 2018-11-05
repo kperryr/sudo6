@@ -9,18 +9,32 @@
     -fx-background-insets: 0.0, 0.0 1.0 1.0 0.0 ;
 }
 .game-grid-cell.first-row {
-    -fx-background-insets: 0.0, 1.0 1.0 1.0 0.0 ;
-}
-.game-grid-cell.first-column {
-    -fx-background-insets: 0.0, 0.0 1.0 1.0 1.0 ;
-}
-.game-grid-cell.first-row.first-column {
-    -fx-background-insets: 0.0, 1.0 ;
+    -fx-background-insets: 0.0, 5.0 1.0 1.0 1.0 ;
 }
 
+.game-grid-cell.last-row {
+    -fx-background-insets: 0.0, 1.0 1.0 5.0 1.0 ;
+}
+
+.game-grid-cell.first-column {
+    -fx-background-insets: 0.0, 1.0 1.0 1.0 5 ;
+}
+
+.game-grid-cell.last-column {
+    -fx-background-insets: 0.0, 1.0 5.0 1.0 1 ;
+}
+.game-grid-cell.first-row.first-column {
+    -fx-background-insets: 0.0, 5 0 1 5 ;
+}
+.game-grid-cell.last-row.first-column {
+    -fx-background-insets: 0.0, 1 1 5 5 ;
+}
+/*
 .my-grid-pane {
     -fx-background-color: lightgray;
     -fx-vgap: 5;
     -fx-hgap: 5;
     -fx-padding: 5;
 }
+
+*/

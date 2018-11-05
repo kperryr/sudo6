@@ -47,22 +47,21 @@ public class Sudoku extends LatinSquare implements Serializable {
 	private int iSqrtSize;
 
 	private HashMap<Integer, SudokuCell> cells = new HashMap<Integer, SudokuCell>();
-	
+
 	private eGameDifficulty eGameDifficulty;
 
 	/**
-	 * Sudoku - No-arg private constructor should set the eGameDifficulty to EASY by default
+	 * Sudoku - No-arg private constructor should set the eGameDifficulty to EASY by
+	 * default
 	 * 
 	 * @version 1.5
 	 * @since Lab #5
 	 */
-	private Sudoku()
-	{
+	private Sudoku() {
 		super();
-		this.eGameDifficulty = eGameDifficulty.EASY;		
+		this.eGameDifficulty = eGameDifficulty.EASY;
 	}
-	
-	
+
 	/**
 	 * Sudoku - for Lab #2... do the following:
 	 * 
@@ -95,27 +94,24 @@ public class Sudoku extends LatinSquare implements Serializable {
 		SetCells();
 		fillRemaining(this.cells.get(Objects.hash(0, iSqrtSize)));
 		RemoveCells();
-		
+
 	}
-	
+
 	/**
-	 * Sudoku - Overloaded constructor passing in iSize and eGameDifficulty
-	 * call the Sudoku(int) constructor, then set the difficulty, then RemoveCells()
+	 * Sudoku - Overloaded constructor passing in iSize and eGameDifficulty call the
+	 * Sudoku(int) constructor, then set the difficulty, then RemoveCells()
 	 * 
 	 * @version 1.5
 	 * @since Lab #5
 	 * @param iSize - Size of the puzzle
-	 * @param eGD - Difficulty of the game
+	 * @param eGD   - Difficulty of the game
 	 * @throws Exception
 	 */
-	public Sudoku(int iSize, eGameDifficulty eGD) throws Exception
-	{
+	public Sudoku(int iSize, eGameDifficulty eGD) throws Exception {
 		this(iSize);
 		this.eGameDifficulty = eGD;
 		RemoveCells();
 	}
-	
-
 
 	/**
 	 * Sudoku - pass in a given two-dimensional array puzzle, create an instance.
@@ -139,54 +135,52 @@ public class Sudoku extends LatinSquare implements Serializable {
 
 	}
 
-	
 	public int getiSqrtSize() {
 		return iSqrtSize;
 	}
 
-
 	/**
-	 * RemoveCells - this method will remove cells (set them to zero) until the game's difficulty is met
-	 * @version 1.5
-	 * @since Lab #5
-	 */
-	private void RemoveCells()
-	{
-		SetRemaingCells();
-		
-		do
-		{
-			Random rand = new SecureRandom();
-			int iRandomRow = rand.nextInt(this.iSize);
-			int iRandomCol = rand.nextInt(this.iSize);			
-			this.getPuzzle()[iRandomRow][iRandomCol] = 0;
-			SetRemaingCells();					
-		} while (!IsDifficultyMet(PossibleValuesMultiplier(this.cells)));
-		
-	}
-	
-	/**
-	 * IsDifficultyMet - will return boolean if the given difficulty score meets the game's difficulty
+	 * RemoveCells - this method will remove cells (set them to zero) until the
+	 * game's difficulty is met
 	 * 
 	 * @version 1.5
 	 * @since Lab #5
-	 * @param eGD - given 
+	 */
+	private void RemoveCells() {
+		SetRemaingCells();
+
+		do {
+			Random rand = new SecureRandom();
+			int iRandomRow = rand.nextInt(this.iSize);
+			int iRandomCol = rand.nextInt(this.iSize);
+			this.getPuzzle()[iRandomRow][iRandomCol] = 0;
+			SetRemaingCells();
+		} while (!IsDifficultyMet(PossibleValuesMultiplier(this.cells)));
+
+	}
+
+	/**
+	 * IsDifficultyMet - will return boolean if the given difficulty score meets the
+	 * game's difficulty
+	 * 
+	 * @version 1.5
+	 * @since Lab #5
+	 * @param eGD             - given
 	 * @param iPossibleValues
 	 * @return
 	 */
-	
-	private boolean IsDifficultyMet(int iPossibleValues)
-	{
+
+	private boolean IsDifficultyMet(int iPossibleValues) {
 		eGameDifficulty eActualGameDifficulty = eGameDifficulty.get(iPossibleValues);
-		
+
 		if (eActualGameDifficulty == null)
 			return false;
 		if (eActualGameDifficulty.getiDifficulty() >= this.eGameDifficulty.getiDifficulty())
 			return true;
-		
+
 		return false;
 	}
-	
+
 	/**
 	 * getiSize - the UI needs to know the size of the puzzle
 	 *
@@ -229,35 +223,36 @@ public class Sudoku extends LatinSquare implements Serializable {
 			}
 		}
 	}
-	
+
 	/**
-	 * SetRemaingCells - set lstRemainingValidValues, don't shuffle.  Pretty close to SetCells()
+	 * SetRemaingCells - set lstRemainingValidValues, don't shuffle. Pretty close to
+	 * SetCells()
 	 * 
 	 * @version 1.5
 	 * @since Lab #5
 	 */
 	private void SetRemaingCells() {
-		
+
 		for (int iRow = 0; iRow < iSize; iRow++) {
 			for (int iCol = 0; iCol < iSize; iCol++) {
 				SudokuCell c = new SudokuCell(iRow, iCol);
 				c.setlstRemainingValidValues(getAllValidCellValues(iCol, iRow));
 				cells.put(c.hashCode(), c);
 			}
-		}	
+		}
 	}
-	
+
 	/**
-	 * PossibleValuesMultiplier - will return back an integer calculated from the possible remaining values
+	 * PossibleValuesMultiplier - will return back an integer calculated from the
+	 * possible remaining values
 	 * 
-	 * Steps... 
-	 * Step 1: Generate the Sudoku (using constructor), fill entire puzzle, set the difficulty
-	 * Step 2: Randomly set a cell to zero
-	 * Step 3: set lstRemainingValidValues with remaining possible values
-	 * Step 4: calculate PossibleValuesMultipler.  Iterate through the 'cells' hashmap, multiplying
-	 * the lstRemainingValues.Size for each cell.  If the multiplier is greater than the MAX_VALUE for an
-	 * Integer, return the Integer.MAX_VALUE
-	 * Step 5: if the puzzle still doesn't meet the required difficulty, go to step 2
+	 * Steps... Step 1: Generate the Sudoku (using constructor), fill entire puzzle,
+	 * set the difficulty Step 2: Randomly set a cell to zero Step 3: set
+	 * lstRemainingValidValues with remaining possible values Step 4: calculate
+	 * PossibleValuesMultipler. Iterate through the 'cells' hashmap, multiplying the
+	 * lstRemainingValues.Size for each cell. If the multiplier is greater than the
+	 * MAX_VALUE for an Integer, return the Integer.MAX_VALUE Step 5: if the puzzle
+	 * still doesn't meet the required difficulty, go to step 2
 	 * 
 	 * 
 	 * @version 1.5
@@ -265,26 +260,22 @@ public class Sudoku extends LatinSquare implements Serializable {
 	 * @param cells
 	 * @return
 	 */
-	private static int PossibleValuesMultiplier(HashMap<Integer, SudokuCell> cells)
-	{
+	private static int PossibleValuesMultiplier(HashMap<Integer, SudokuCell> cells) {
 		int iMultiplier = 1;
-	    Iterator it = cells.entrySet().iterator();		    
-	    while (it.hasNext()) {
-	        Map.Entry pair = (Map.Entry)it.next();
-	        SudokuCell SC = (SudokuCell)pair.getValue();	
-	        
-	        if (iMultiplier * SC.getLstRemainingValidValues().size() > Integer.MAX_VALUE)
-	        {
-	        	return Integer.MAX_VALUE;
-	        }
-	        else
-	        {
-	        	iMultiplier *= SC.getLstRemainingValidValues().size();	
-	        }		       		       
-	    }		    
+		Iterator it = cells.entrySet().iterator();
+		while (it.hasNext()) {
+			Map.Entry pair = (Map.Entry) it.next();
+			SudokuCell SC = (SudokuCell) pair.getValue();
+
+			if (iMultiplier * SC.getLstRemainingValidValues().size() > Integer.MAX_VALUE) {
+				return Integer.MAX_VALUE;
+			} else {
+				iMultiplier *= SC.getLstRemainingValidValues().size();
+			}
+		}
 		return iMultiplier;
 	}
-	
+
 	/**
 	 * getAllCellNumbers - This method will return all the valid values remaining
 	 * for a given cell (by Col/Row).
@@ -312,12 +303,11 @@ public class Sudoku extends LatinSquare implements Serializable {
 		Collections.addAll(hsUsedValues, Arrays.stream(this.getRegion(iCol, iRow)).boxed().toArray(Integer[]::new));
 
 		hsCellRange.removeAll(hsUsedValues);
-		
-		if (this.getPuzzle()[iRow][iCol] != 0)
-		{
+
+		if (this.getPuzzle()[iRow][iCol] != 0) {
 			hsCellRange.add(this.getPuzzle()[iRow][iCol]);
 		}
-		
+
 		return hsCellRange;
 	}
 
@@ -700,6 +690,129 @@ public class Sudoku extends LatinSquare implements Serializable {
 	}
 
 	/**
+	 * bFirstRow - return True if it's the first row of the puzzle
+	 * 
+	 * @version 1.5
+	 * @since Lab #5
+	 * @param c
+	 * @return
+	 */
+	public boolean bFirstRow(Cell c) {
+		if (c.getiRow() == 0)
+			return true;
+		else
+			return false;
+	}
+
+	/**
+	 * bFirstCol - return True if it's the first column in the puzzle
+	 * 
+	 * @version 1.5
+	 * @since Lab #5
+	 * @param c
+	 * @return
+	 */
+	public boolean bFirstCol(Cell c) {
+		if (c.getiCol() == 0)
+			return true;
+		else
+			return false;
+	}
+
+	/**
+	 * bFirstCell - return True if it's the first cell in the puzzle
+	 * 
+	 * @version 1.5
+	 * @since Lab #5
+	 * @param c
+	 * @return
+	 */
+	public boolean bFirstCell(Cell c) {
+
+		if ((bFirstRow(c)) && (bFirstCol(c)))
+			return true;
+		else
+			return false;
+	}
+
+	/**
+	 * bLastRow - return True if it's the last row in the puzzle
+	 * 
+	 * @version 1.5
+	 * @since Lab #5
+	 * @param c
+	 * @return
+	 */
+	public boolean bLastRow(Cell c) {
+		if (c.getiRow() + 1 == this.iSize)
+			return true;
+		else
+			return false;
+	}
+
+	/**
+	 * bLastCol - return True if it's the last column in the puzzle
+	 * 
+	 * @version 1.5
+	 * @since Lab #5
+	 * @param c
+	 * @return
+	 */
+	public boolean bLastCol(Cell c) {
+		if (c.getiCol() + 1 == this.iSize)
+			return true;
+		else
+			return false;
+	}
+
+	/**
+	 * bLastCell - return True if it's the last cell in the puzzle
+	 * 
+	 * @version 1.5
+	 * @since Lab #5
+	 * @param c
+	 * @return
+	 */
+	public boolean bLastCell(Cell c) {
+		if ((bLastRow(c)) && (bLastCol(c)))
+
+			return true;
+		else
+			return false;
+	}
+
+	/**
+	 * bRegionRow - return True if it's the last row in the region
+	 * 
+	 * @version 1.5
+	 * @since Lab #5
+	 * @param c
+	 * @return
+	 */
+	public boolean bRegionRow(Cell c) {
+		if ((c.getiRow() + 1) % this.iSqrtSize == 0)
+
+			return true;
+		else
+			return false;
+	}
+	
+	/**
+	 * bRegionCol - return True if it's the last column in the region
+	 * 
+	 * @version 1.5
+	 * @since Lab #5
+	 * @param c
+	 * @return
+	 */
+	public boolean bRegionCol(Cell c) {
+		if ((c.getiCol() + 1) % this.iSqrtSize == 0)
+			return true;
+		else
+			return false;
+	}	
+
+	/**
 	 * Cell - private class that handles possible remaining values
 	 * 
 	 * @version 1.4
@@ -711,15 +824,16 @@ public class Sudoku extends LatinSquare implements Serializable {
 
 		private int iRow;
 		private int iCol;
-		
+
 		/**
-		 * lstValidValues - ArrayList of initial valid values.  Set once, in construction of sudoku
+		 * lstValidValues - ArrayList of initial valid values. Set once, in construction
+		 * of sudoku
 		 * 
 		 * @version 1.4
 		 * @since Lab #4
 		 * @author Bert.Gibbons
-		 */			
-		
+		 */
+
 		private ArrayList<Integer> lstValidValues = new ArrayList<Integer>();
 
 		/**
@@ -728,7 +842,7 @@ public class Sudoku extends LatinSquare implements Serializable {
 		 * @version 1.5
 		 * @since Lab #5
 		 * @author Bert.Gibbons
-		 */		
+		 */
 		private ArrayList<Integer> lstRemainingValidValues = new ArrayList<Integer>();
 
 		public SudokuCell(int iRow, int iCol) {
@@ -752,19 +866,18 @@ public class Sudoku extends LatinSquare implements Serializable {
 		public ArrayList<Integer> getLstValidValues() {
 			return lstValidValues;
 		}
-		
-		
+
 		/**
 		 * getLstRemainingValidValues - Return the list of remaining valid values
 		 * 
 		 * @version 1.5
 		 * @since Lab #5
 		 * @author Bert.Gibbons
-		 */	
+		 */
 		public ArrayList<Integer> getLstRemainingValidValues() {
 			return lstRemainingValidValues;
 		}
-		
+
 		public void setlstValidValues(HashSet<Integer> hsValidValues) {
 			lstValidValues = new ArrayList<Integer>(hsValidValues);
 		}
@@ -775,12 +888,11 @@ public class Sudoku extends LatinSquare implements Serializable {
 		 * @version 1.5
 		 * @since Lab #5
 		 * @author Bert.Gibbons
-		 */	
-		public void setlstRemainingValidValues(HashSet<Integer> hsRemainingValues)
-		{
+		 */
+		public void setlstRemainingValidValues(HashSet<Integer> hsRemainingValues) {
 			lstRemainingValidValues = new ArrayList<Integer>(hsRemainingValues);
 		}
-		
+
 		public void ShuffleValidValues() {
 			Collections.shuffle(lstValidValues);
 		}
@@ -825,5 +937,6 @@ public class Sudoku extends LatinSquare implements Serializable {
 			return (SudokuCell) cells.get(Objects.hash(iRow, iCol));
 
 		}
+
 	}
 }

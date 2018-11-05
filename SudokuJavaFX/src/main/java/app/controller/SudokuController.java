@@ -18,6 +18,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
@@ -33,6 +34,8 @@ public class SudokuController implements Initializable {
 
 	@FXML
 	private VBox vboxCenter;
+	
+
 
 	public void setMainApp(Game game) {
 		this.game = game;
@@ -49,80 +52,87 @@ public class SudokuController implements Initializable {
 	}
 
 	private void BuildGrid() {
-		Sudoku s = game.StartSudoku(9, eGameDifficulty.MEDIUM);
-		SudokuStyler ss = new SudokuStyler(s);
 		
-		vboxCenter.getChildren().clear();
-		GridPane gridPane = new GridPane();
-		gridPane.getStyleClass().add("GridPane");
-		gridPane.setCenterShape(true);
-		// gridPane.setVgap(10);
-		// gridPane.setHgap(10);
+		Sudoku s = game.StartSudoku(9, eGameDifficulty.HARD);			
+		GridPane gridSudoku = BuildSudoku();		
+		
+		vboxCenter.getChildren().clear();	// Clear any controls in the VBox
+	
+		
+		
+		//	Add the Grid to the Vbox
+		vboxCenter.getChildren().add(gridSudoku);
+
+		
+		
+		
+/*		
+		GridPane gridPaneNumbers = new GridPane();
+		gridPaneNumbers.setCenterShape(true);
+		ColumnConstraints colCon = new ColumnConstraints();
+		colCon.setHgrow(Priority.NEVER); // This means the column will never grow, even if you re-size the scene
+		colCon.halignmentProperty().set(HPos.CENTER);	//	Center the stuff you add to the column
+		colCon.setMinWidth(45);		// Set the width of the column
+		gridPaneNumbers.getColumnConstraints().add(colCon);
+		
+		RowConstraints rowCon = new RowConstraints();
+		rowCon.setMinHeight(45);	//	Set the height of the row
+		rowCon.setVgrow(Priority.NEVER);	// This means the row will never grow, even if you re-size the scene
+		rowCon.valignmentProperty().set(VPos.CENTER);	// Center the stuff added to the row
+		gridPaneNumbers.getRowConstraints().add(rowCon);
+		
+		for (int iCol = 0; iCol < s.getiSize(); iCol++) {
+			StackPane p = new StackPane();		
+			p.getChildren().add(new ImageView(GetImage(iCol + 1)));						
+			gridPaneNumbers.add(p, iCol, 0);
+			
+		}
+		
+		vboxCenter.getChildren().add(gridPaneNumbers);*/
+		
+		
+		
+	}
+	
+	private GridPane BuildSudoku()
+	{
+		Sudoku s = this.game.getSudoku();
+		SudokuStyler ss = new SudokuStyler(s);
+		GridPane gridPaneSudoku = new GridPane();
+		gridPaneSudoku.setCenterShape(true);
 
 		for (int iCol = 0; iCol < s.getiSize(); iCol++) {
+			
+			//	ColumnConstraint is a generic rule... how every column in the grid should behave
 			ColumnConstraints colCon = new ColumnConstraints();
-			// colCon.setMaxWidth(100);
-			colCon.setHgrow(Priority.NEVER);
-			colCon.halignmentProperty().set(HPos.CENTER);
-			colCon.setMinWidth(45);
-			gridPane.getColumnConstraints().add(colCon);
+			colCon.setHgrow(Priority.NEVER); // This means the column will never grow, even if you re-size the scene
+			colCon.halignmentProperty().set(HPos.CENTER);	//	Center the stuff you add to the column
+			colCon.setMinWidth(45);		// Set the width of the column
+			gridPaneSudoku.getColumnConstraints().add(colCon);
 
+			//	RowConstraint is a generic rule... how every row in the grid should behave
 			RowConstraints rowCon = new RowConstraints();
-			rowCon.setMinHeight(45);
-			rowCon.setVgrow(Priority.NEVER);
-			rowCon.valignmentProperty().set(VPos.CENTER);
-			gridPane.getRowConstraints().add(rowCon);
+			rowCon.setMinHeight(45);	//	Set the height of the row
+			rowCon.setVgrow(Priority.NEVER);	// This means the row will never grow, even if you re-size the scene
+			rowCon.valignmentProperty().set(VPos.CENTER);	// Center the stuff added to the row
+			gridPaneSudoku.getRowConstraints().add(rowCon);
 
 			for (int iRow = 0; iRow < s.getiSize(); iRow++) {
 
+				//	The image control is going to be added to a StackPane, which can be centered
 				StackPane pane = new StackPane();
 
 				if (s.getPuzzle()[iRow][iCol] != 0) {
 					ImageView iv = new ImageView(GetImage(s.getPuzzle()[iRow][iCol]));
 					pane.getChildren().add(iv);
-				}
-
-				pane.setStyle(ss.getStyle(new Cell(iRow, iCol)));
-				
-				//pane.setStyle(" -fx-background-color: black, white ;-fx-background-insets: 0, 0 1 1 0 ;");
-				
-/*				pane.getStyleClass().add("game-grid-cell");
-
-				if (iRow == 0) {
-					pane.getStyleClass().add("first-row");
-				}
-
-				if (iCol == 0) {
-					pane.getStyleClass().add("first-column");
-				}
-				
-				if ((iRow + 1) == s.getiSize())
-				{
-					pane.getStyleClass().add("last-row");
-				}
-				
-				
-				if ((iCol + 1) == s.getiSize())
-				{
-					pane.getStyleClass().add("last-column");
-				}*/
-/*				if (iRow > 0) {
-					if (iRow % s.getiSqrtSize() == 0)
-
-					{
-						pane.getStyleClass().add("regionRow");
-					}
-				}*/
-
-				/*
-				 * 
-				 * if (iRow == 3) { pane.getStyleClass().add("my-grid-pane"); }
-				 */
-
-				gridPane.add(pane, iCol, iRow);
+				}			
+				pane.getStyleClass().clear();	// Clear any errant styling in the pane				
+				pane.setStyle(ss.getStyle(new Cell(iRow, iCol)));	// Set the styling.  
+				gridPaneSudoku.add(pane, iCol, iRow);	// Add the pane to the grid
 			}
 		}
-		vboxCenter.getChildren().add(gridPane);
+		
+		return gridPaneSudoku;
 	}
 
 	private Image GetImage(int iValue) {
