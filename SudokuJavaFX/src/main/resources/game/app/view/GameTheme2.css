@@ -1,9 +1,18 @@
 .GridPane {
-
--fx-background-insets: 0.0, 0.0 5.0 5.0 0.0 ;
-	
+    -fx-background-color: #CCFF99;	
 }
  
+ .VBoxGameGrid {
+    -fx-background-color: #00FF99;	
+}
+
+.GridPaneInsets {
+    -fx-background-color: black, white ;
+    -fx-background-insets: 0.0, 2.0 2.0 2.0 2.0 ;
+	
+}
+
+
 .game-grid-cell {
     -fx-background-color: black, white ;
     -fx-background-insets: 0.0, 0.0 1.0 1.0 0.0 ;

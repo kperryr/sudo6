@@ -5,8 +5,8 @@ import pkgGame.Sudoku;
 
 public class SudokuStyler {
 
-	private int iPuzzleBorder = 8;
-	private int iRegionBorder = 4;
+	private int iPuzzleBorder = 5;
+	private int iRegionBorder = 3;
 	private int iCellBorder = 1;
 	
 	private Sudoku s;
