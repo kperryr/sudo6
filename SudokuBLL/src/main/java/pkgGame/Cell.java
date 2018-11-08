@@ -1,10 +1,12 @@
 package pkgGame;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Cell {
+public class Cell implements Serializable {
 	private int iRow;
 	private int iCol;
+	private int iCellValue;
 
 	public Cell(int iRow, int iCol) {
 		super();
@@ -18,6 +20,14 @@ public class Cell {
 
 	public int getiCol() {
 		return iCol;
+	}
+
+	public int getiCellValue() {
+		return iCellValue;
+	}
+
+	public void setiCellValue(int iCellValue) {
+		this.iCellValue = iCellValue;
 	}
 
 	@Override

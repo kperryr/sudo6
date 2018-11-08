@@ -8,6 +8,7 @@ import app.Game;
 import app.helper.SudokuCell;
 import app.helper.SudokuStyler;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.HPos;
@@ -18,7 +19,16 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.DataFormat;
+import javafx.scene.input.DragEvent;
+import javafx.scene.input.Dragboard;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.input.TransferMode;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -26,6 +36,7 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import pkgEnum.eGameDifficulty;
 import pkgGame.Cell;
 import pkgGame.Sudoku;
@@ -44,6 +55,10 @@ public class SudokuController implements Initializable {
 	private HBox hboxNumbers;
 
 	private int iCellSize = 45;
+	private static final DataFormat myFormat = new DataFormat("com.cisc181.Data.Cell");
+
+	private eGameDifficulty eGD = null;
+	private Sudoku s = null;
 
 	public void setMainApp(Game game) {
 		this.game = game;
@@ -56,18 +71,19 @@ public class SudokuController implements Initializable {
 
 	@FXML
 	private void ButtonPush(ActionEvent event) {
+		CreateSudokuInstance();
 		BuildGrid();
+	}
+
+	private void CreateSudokuInstance() {
+		eGD = this.game.geteGameDifficulty();
+		s = game.StartSudoku(9, eGD);
 	}
 
 	private void BuildGrid() {
 
-		eGameDifficulty eGD = this.game.geteGameDifficulty();
-
 		// Paint the top grid on the form
 		BuildTopGrid(eGD);
-
-		Sudoku s = game.StartSudoku(9, eGD);
-
 		GridPane gridSudoku = BuildSudokuGrid();
 
 		gridSudoku.getStyleClass().add("GridPane");
@@ -99,6 +115,12 @@ public class SudokuController implements Initializable {
 		gpTop.getStyleClass().add("GridPaneInsets");
 	}
 
+	/**
+	 * BuildNumbersGrid - this method will build the grid that has the avilable
+	 * numbers to choose.
+	 * 
+	 * @return a GridPane, fully built & styled
+	 */
 	private GridPane BuildNumbersGrid() {
 		Sudoku s = this.game.getSudoku();
 		SudokuStyler ss = new SudokuStyler(s);
@@ -112,21 +134,37 @@ public class SudokuController implements Initializable {
 			colCon.setMinWidth(iCellSize); // Set the width of the column
 			gridPaneNumbers.getColumnConstraints().add(colCon);
 
-			SudokuCell pane = new SudokuCell(new Cell(0, iCol));
+			SudokuCell paneSource = new SudokuCell(new Cell(0, iCol));
 
 			ImageView iv = new ImageView(GetImage(iCol + 1));
-			pane.setiCellValue(iCol + 1);
-			pane.getChildren().add(iv);
-			
-			pane.getStyleClass().clear(); // Clear any errant styling in the pane
-			
-			//pane.setStyle(ss.getStyle(new Cell(0, iCol))); // Set the styling.
+			paneSource.getCell().setiCellValue(iCol + 1);
+			paneSource.getChildren().add(iv);
 
-			pane.setOnMouseClicked(e -> {
-				System.out.println(pane.getiCellValue());
+			paneSource.getStyleClass().clear(); // Clear any errant styling in the pane
+
+			// Set a event handler to fire if the pane was clicked
+			paneSource.setOnMouseClicked(e -> {
+				System.out.println(paneSource.getCell().getiCellValue());
 			});
 
-			gridPaneNumbers.add(pane, iCol, 0); // Add the pane to the grid
+			// Set an event handler to fire if the pane was dragged
+			paneSource.setOnDragDetected(new EventHandler<MouseEvent>() {
+				public void handle(MouseEvent event) {
+
+					/* allow any transfer mode */
+					Dragboard db = paneSource.startDragAndDrop(TransferMode.ANY);
+
+					/* put a string on dragboard */
+					// Put the Cell on the clipboard, on the other side, cast as a cell
+					ClipboardContent content = new ClipboardContent();
+					content.put(myFormat, paneSource.getCell());
+					db.setContent(content);
+					event.consume();
+				}
+			});
+
+			// Add the pane to the grid
+			gridPaneNumbers.add(paneSource, iCol, 0);
 
 		}
 
@@ -163,21 +201,82 @@ public class SudokuController implements Initializable {
 			for (int iRow = 0; iRow < s.getiSize(); iRow++) {
 
 				// The image control is going to be added to a StackPane, which can be centered
-				SudokuCell pane = new SudokuCell(new Cell(iRow, iCol));
+				SudokuCell paneTarget = new SudokuCell(new Cell(iRow, iCol));
 
 				if (s.getPuzzle()[iRow][iCol] != 0) {
 					ImageView iv = new ImageView(GetImage(s.getPuzzle()[iRow][iCol]));
-					pane.setiCellValue(s.getPuzzle()[iRow][iCol]);
-					pane.getChildren().add(iv);
+					paneTarget.getCell().setiCellValue(s.getPuzzle()[iRow][iCol]);
+					paneTarget.getChildren().add(iv);
 				}
-				pane.getStyleClass().clear(); // Clear any errant styling in the pane
-				pane.setStyle(ss.getStyle(new Cell(iRow, iCol))); // Set the styling.
+				paneTarget.getStyleClass().clear(); // Clear any errant styling in the pane
+				paneTarget.setStyle(ss.getStyle(new Cell(iRow, iCol))); // Set the styling.
 
-				pane.setOnMouseClicked(e -> {
-					System.out.println(pane.getiCellValue());
+				paneTarget.setOnMouseClicked(e -> {
+					System.out.println(paneTarget.getCell().getiCellValue());
 				});
 
-				gridPaneSudoku.add(pane, iCol, iRow); // Add the pane to the grid
+				paneTarget.setOnDragOver(new EventHandler<DragEvent>() {
+
+					public void handle(DragEvent event) {
+						if (event.getGestureSource() != paneTarget && event.getDragboard().hasContent(myFormat)) {
+
+							// Don't let the user drag over items that already have a cell value set
+							if (paneTarget.getCell().getiCellValue() == 0) {
+								event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
+							}
+						}
+						event.consume();
+					}
+				});
+
+				paneTarget.setOnDragEntered(new EventHandler<DragEvent>() {
+					public void handle(DragEvent event) {
+						/* the drag-and-drop gesture entered the target */
+						System.out.println("onDragEntered");
+						/* show to the user that it is an actual gesture target */
+						if (event.getGestureSource() != paneTarget && event.getDragboard().hasContent(myFormat)) {
+							
+							paneTarget.getStyleClass().clear();
+							paneTarget.getStyleClass().add("bg-black-style");
+						}
+
+						event.consume();
+					}
+				});
+
+				paneTarget.setOnDragExited(new EventHandler<DragEvent>() {
+					public void handle(DragEvent event) {
+/*						 mouse moved away, remove the graphical cues 
+						Insets ins = paneTarget.getInsets();
+						paneTarget.setBackground(
+								new Background(new BackgroundFill(Color.rgb(255, 255, 255), CornerRadii.EMPTY, ins)));
+*/
+						event.consume();
+					}
+				});
+
+				paneTarget.setOnDragDropped(new EventHandler<DragEvent>() {
+					public void handle(DragEvent event) {
+
+						Dragboard db = event.getDragboard();
+						boolean success = false;
+
+						if (db.hasContent(myFormat)) {
+							Cell c = (Cell) db.getContent(myFormat);
+
+							ImageView iv = new ImageView(GetImage(c.getiCellValue()));
+							paneTarget.getCell().setiCellValue(c.getiCellValue());
+							paneTarget.getChildren().clear();
+							paneTarget.getChildren().add(iv);
+							System.out.println(c.getiCellValue());
+							success = true;
+						}
+						event.setDropCompleted(success);
+						event.consume();
+					}
+				});
+
+				gridPaneSudoku.add(paneTarget, iCol, iRow); // Add the pane to the grid
 			}
 		}
 

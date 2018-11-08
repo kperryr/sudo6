@@ -1,29 +1,20 @@
 package app.helper;
 
+import java.io.Serializable;
+
 import javafx.scene.layout.StackPane;
 import pkgGame.Cell;
 
-public class SudokuCell extends StackPane {
+public class SudokuCell extends StackPane implements Serializable {
 
-	private Cell cell; 
-	private int iCellValue;
+	private Cell cell;
 
-	public SudokuCell (Cell c)
-	{
+	public SudokuCell(Cell c) {
 		this.cell = c;
 	}
-	public int getiCellValue() {
-		return iCellValue;
-	}
 
-	public void setiCellValue(int iCellValue) {
-		this.iCellValue = iCellValue;
-	}
 	public Cell getCell() {
 		return cell;
 	}
- 
-	
-	
-	
+
 }

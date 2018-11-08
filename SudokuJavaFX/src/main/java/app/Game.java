@@ -61,7 +61,8 @@ public class Game extends Application {
 			SudokuPane = (BorderPane) loader.load();
 			SudokuPane.prefHeight(500);
 			SudokuPane.prefWidth(500);
-			SudokuPane.setMinHeight(600);
+			SudokuPane.setMinHeight(600);			
+			
 			GameBorderPane.setCenter(SudokuPane);
 			SC = loader.getController();
 			SC.setMainApp(this);
