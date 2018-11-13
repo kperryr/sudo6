@@ -2,11 +2,13 @@ package app.controller;
 
 import java.io.InputStream;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import app.Game;
 import app.helper.SudokuCell;
 import app.helper.SudokuStyler;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -15,6 +17,8 @@ import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.VPos;
 import javafx.scene.Node;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
@@ -38,8 +42,10 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import pkgEnum.eGameDifficulty;
+import pkgEnum.ePuzzleViolation;
 import pkgGame.Cell;
 import pkgGame.Sudoku;
+import pkgHelper.PuzzleViolation;
 
 public class SudokuController implements Initializable {
 
@@ -70,14 +76,17 @@ public class SudokuController implements Initializable {
 	}
 
 	@FXML
-	private void ButtonPush(ActionEvent event) {
+	private void btnStartGame(ActionEvent event) {
 		CreateSudokuInstance();
 		BuildGrid();
 	}
 
 	private void CreateSudokuInstance() {
 		eGD = this.game.geteGameDifficulty();
-		s = game.StartSudoku(9, eGD);
+		s = game.StartSudoku(this.game.getPuzzleSize(), eGD);
+		//this.game.getSudokuPane().setMinHeight(600);
+		//this.game.getSudokuPane().prefWidth(400);
+
 	}
 
 	private void BuildGrid() {
@@ -86,14 +95,18 @@ public class SudokuController implements Initializable {
 		BuildTopGrid(eGD);
 		GridPane gridSudoku = BuildSudokuGrid();
 
-		gridSudoku.getStyleClass().add("GridPane");
-		hboxGrid.getChildren().clear(); // Clear any controls in the VBox
-		hboxGrid.getStyleClass().add("VBoxGameGrid");
+		// gridSudoku.getStyleClass().add("GridPane");
 
-		// Add the Grid to the Vbox
+		// Clear the hboxGrid, add the Sudoku puzzle
+		hboxGrid.getChildren().clear(); // Clear any controls in the VBox
+		// hboxGrid.getStyleClass().add("VBoxGameGrid");
 		hboxGrid.getChildren().add(gridSudoku);
 
+		// Clear the hboxNumbers, add the numbers
 		GridPane gridNumbers = BuildNumbersGrid();
+
+		hboxNumbers.getChildren().clear();
+		hboxNumbers.setPadding((new Insets(25, 25, 25, 25)));
 		hboxNumbers.getChildren().add(gridNumbers);
 
 	}
@@ -128,12 +141,8 @@ public class SudokuController implements Initializable {
 		gridPaneNumbers.setCenterShape(true);
 		gridPaneNumbers.setMaxWidth(iCellSize + 15);
 		for (int iCol = 0; iCol < s.getiSize(); iCol++) {
-			ColumnConstraints colCon = new ColumnConstraints();
-			colCon.setHgrow(Priority.NEVER); // This means the column will never grow, even if you re-size the scene
-			colCon.halignmentProperty().set(HPos.CENTER); // Center the stuff you add to the column
-			colCon.setMinWidth(iCellSize); // Set the width of the column
-			gridPaneNumbers.getColumnConstraints().add(colCon);
 
+			gridPaneNumbers.getColumnConstraints().add(SudokuStyler.getGenericColumnConstraint(iCellSize));
 			SudokuCell paneSource = new SudokuCell(new Cell(0, iCol));
 
 			ImageView iv = new ImageView(GetImage(iCol + 1));
@@ -147,7 +156,8 @@ public class SudokuController implements Initializable {
 				System.out.println(paneSource.getCell().getiCellValue());
 			});
 
-			// Set an event handler to fire if the pane was dragged
+			// This is going to fire if the number from the number grid is dragged
+			// Find the cell in the pane, put it on the Dragboard
 			paneSource.setOnDragDetected(new EventHandler<MouseEvent>() {
 				public void handle(MouseEvent event) {
 
@@ -174,6 +184,7 @@ public class SudokuController implements Initializable {
 	private GridPane BuildSudokuGrid() {
 
 		Sudoku s = this.game.getSudoku();
+
 		SudokuStyler ss = new SudokuStyler(s);
 		GridPane gridPaneSudoku = new GridPane();
 		gridPaneSudoku.setCenterShape(true);
@@ -182,32 +193,22 @@ public class SudokuController implements Initializable {
 		gridPaneSudoku.setMaxHeight(iCellSize * s.getiSize());
 
 		for (int iCol = 0; iCol < s.getiSize(); iCol++) {
-
-			// ColumnConstraint is a generic rule... how every column in the grid should
-			// behave
-			ColumnConstraints colCon = new ColumnConstraints();
-			colCon.setHgrow(Priority.NEVER); // This means the column will never grow, even if you re-size the scene
-			colCon.halignmentProperty().set(HPos.CENTER); // Center the stuff you add to the column
-			colCon.setMinWidth(iCellSize); // Set the width of the column
-			gridPaneSudoku.getColumnConstraints().add(colCon);
-
-			// RowConstraint is a generic rule... how every row in the grid should behave
-			RowConstraints rowCon = new RowConstraints();
-			rowCon.setMinHeight(iCellSize); // Set the height of the row
-			rowCon.setVgrow(Priority.NEVER); // This means the row will never grow, even if you re-size the scene
-			rowCon.valignmentProperty().set(VPos.CENTER); // Center the stuff added to the row
-			gridPaneSudoku.getRowConstraints().add(rowCon);
+			gridPaneSudoku.getColumnConstraints().add(SudokuStyler.getGenericColumnConstraint(iCellSize));
+			gridPaneSudoku.getRowConstraints().add(SudokuStyler.getGenericRowConstraint(iCellSize));
 
 			for (int iRow = 0; iRow < s.getiSize(); iRow++) {
 
 				// The image control is going to be added to a StackPane, which can be centered
+				
 				SudokuCell paneTarget = new SudokuCell(new Cell(iRow, iCol));
+
 
 				if (s.getPuzzle()[iRow][iCol] != 0) {
 					ImageView iv = new ImageView(GetImage(s.getPuzzle()[iRow][iCol]));
 					paneTarget.getCell().setiCellValue(s.getPuzzle()[iRow][iCol]);
 					paneTarget.getChildren().add(iv);
 				}
+
 				paneTarget.getStyleClass().clear(); // Clear any errant styling in the pane
 				paneTarget.setStyle(ss.getStyle(new Cell(iRow, iCol))); // Set the styling.
 
@@ -215,11 +216,12 @@ public class SudokuController implements Initializable {
 					System.out.println(paneTarget.getCell().getiCellValue());
 				});
 
+				// Fire this method as something is being dragged over a cell
+				// I'm checking the cell value... if it's not zero... don't let it be dropped
+				// (show the circle-with-line-through)
 				paneTarget.setOnDragOver(new EventHandler<DragEvent>() {
-
 					public void handle(DragEvent event) {
 						if (event.getGestureSource() != paneTarget && event.getDragboard().hasContent(myFormat)) {
-
 							// Don't let the user drag over items that already have a cell value set
 							if (paneTarget.getCell().getiCellValue() == 0) {
 								event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
@@ -229,59 +231,89 @@ public class SudokuController implements Initializable {
 					}
 				});
 
+				// Fire this method as something is entering the item being dragged
 				paneTarget.setOnDragEntered(new EventHandler<DragEvent>() {
 					public void handle(DragEvent event) {
-						/* the drag-and-drop gesture entered the target */
-						System.out.println("onDragEntered");
 						/* show to the user that it is an actual gesture target */
 						if (event.getGestureSource() != paneTarget && event.getDragboard().hasContent(myFormat)) {
-							
-							paneTarget.getStyleClass().clear();
-							paneTarget.getStyleClass().add("bg-black-style");
+							Dragboard db = event.getDragboard();
+							Cell CellFrom = (Cell) db.getContent(myFormat);
+							Cell CellTo = (Cell) paneTarget.getCell();
+							if (CellTo.getiCellValue() == 0) {
+								
+								//ArrayList<PuzzleViolation> PVs = s.FindViolations(CellTo.getiRow(), CellTo.getiCol(), CellFrom.getiCellValue());
+								
+								//SudokuStyler.HandlePuzzleViolations(gridPaneSudoku, PVs);
+								
+								
+								
+								
+								if (!s.isValidValue(CellTo.getiRow(), CellTo.getiCol(), CellFrom.getiCellValue())) {
+									if (game.getShowHints())
+									{
+										Pane pRed = SudokuStyler.getRedPane();
+										paneTarget.getChildren().add(0, pRed);	
+									}
+									// The cell you're trying to drag... can't exist in this target cell									
+								}
+							}
 						}
-
 						event.consume();
 					}
 				});
 
 				paneTarget.setOnDragExited(new EventHandler<DragEvent>() {
 					public void handle(DragEvent event) {
-/*						 mouse moved away, remove the graphical cues 
-						Insets ins = paneTarget.getInsets();
-						paneTarget.setBackground(
-								new Background(new BackgroundFill(Color.rgb(255, 255, 255), CornerRadii.EMPTY, ins)));
-*/
+						SudokuStyler.RemoveGridStyling(gridPaneSudoku);
+						ObservableList<Node> childs = paneTarget.getChildren();
+						for (Object o : childs) {
+							if (o instanceof Pane)
+								paneTarget.getChildren().remove(o);
+						}
 						event.consume();
 					}
 				});
 
 				paneTarget.setOnDragDropped(new EventHandler<DragEvent>() {
-					public void handle(DragEvent event) {
-
+					public void handle(DragEvent event) {						
 						Dragboard db = event.getDragboard();
 						boolean success = false;
-
+						Cell CellTo = (Cell) paneTarget.getCell();
+						
 						if (db.hasContent(myFormat)) {
-							Cell c = (Cell) db.getContent(myFormat);
+							Cell CellFrom = (Cell) db.getContent(myFormat);
+							
+							if (!s.isValidValue(CellTo.getiRow(), CellTo.getiCol(), CellFrom.getiCellValue())) {
+								if (game.getShowHints())
+								{
+ 
+								}
+								
+							}
+							
 
-							ImageView iv = new ImageView(GetImage(c.getiCellValue()));
-							paneTarget.getCell().setiCellValue(c.getiCellValue());
+
+							ImageView iv = new ImageView(GetImage(CellFrom.getiCellValue()));
+							paneTarget.getCell().setiCellValue(CellFrom.getiCellValue());
 							paneTarget.getChildren().clear();
 							paneTarget.getChildren().add(iv);
-							System.out.println(c.getiCellValue());
+							System.out.println(CellFrom.getiCellValue());
 							success = true;
+ 
 						}
+						
 						event.setDropCompleted(success);
 						event.consume();
 					}
+			 
 				});
 
 				gridPaneSudoku.add(paneTarget, iCol, iRow); // Add the pane to the grid
 			}
-		}
 
-		return gridPaneSudoku;
 	}
+
+	return gridPaneSudoku;}
 
 	private Image GetImage(int iValue) {
 		InputStream is = getClass().getClassLoader().getResourceAsStream("img/" + iValue + ".png");

@@ -539,6 +539,21 @@ public class Sudoku extends LatinSquare implements Serializable {
 		return true;
 	}
 
+	public ArrayList<PuzzleViolation> FindViolations(int iRow, int iCol, int iValue) {
+		ArrayList<PuzzleViolation> PV = new ArrayList<PuzzleViolation>();
+		if (doesElementExist(super.getRow(iRow), iValue)) {
+			PV.add(new PuzzleViolation(ePuzzleViolation.DupRow, iRow));
+		}
+		if (doesElementExist(super.getColumn(iCol), iValue)) {
+			PV.add(new PuzzleViolation(ePuzzleViolation.DupCol, iCol));
+		}
+		if (doesElementExist(this.getRegion(iCol, iRow), iValue)) {
+			PV.add(new PuzzleViolation(ePuzzleViolation.DupRegion, this.getRegionNbr(iCol, iRow)));
+		}
+
+		return PV;
+	}
+
 	/**
 	 * PrintPuzzle This method will print the puzzle to the console (space between
 	 * columns, line break after row)
@@ -796,7 +811,7 @@ public class Sudoku extends LatinSquare implements Serializable {
 		else
 			return false;
 	}
-	
+
 	/**
 	 * bRegionCol - return True if it's the last column in the region
 	 * 
@@ -810,7 +825,7 @@ public class Sudoku extends LatinSquare implements Serializable {
 			return true;
 		else
 			return false;
-	}	
+	}
 
 	/**
 	 * Cell - private class that handles possible remaining values

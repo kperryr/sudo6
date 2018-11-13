@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.CheckMenuItem?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
@@ -7,9 +8,9 @@
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.BorderPane?>
 
-<BorderPane prefWidth="800.0" stylesheets="@GameTheme2.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.controller.GameBorderController">
+<BorderPane stylesheets="@GameTheme2.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.controller.GameBorderController">
    <top>
-      <MenuBar prefHeight="31.0" prefWidth="800.0" BorderPane.alignment="CENTER">
+      <MenuBar fx:id="mnuMain" prefHeight="35.0" BorderPane.alignment="CENTER">
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
@@ -27,11 +28,21 @@
                   <RadioMenuItem id="Hard" mnemonicParsing="false" text="Hard" toggleGroup="$tgDifficulty" />
             </items>
           </Menu>
-          <Menu mnemonicParsing="false" text="Help">
-            <items>
-              <MenuItem mnemonicParsing="false" text="About" />
-            </items>
-          </Menu>
+            <Menu mnemonicParsing="false" text="Puzzle Size">
+              <items>
+                  <RadioMenuItem id="4" mnemonicParsing="false" onAction="#mnuPuzzleSizeChange" selected="true" text="4 x 4">
+                     <toggleGroup>
+                        <ToggleGroup fx:id="tgPuzzleSize" />
+                     </toggleGroup>
+                  </RadioMenuItem>
+                  <RadioMenuItem id="9" mnemonicParsing="false" onAction="#mnuPuzzleSizeChange" text="9 x 9" toggleGroup="$tgPuzzleSize" />
+              </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Game Options">
+              <items>
+                  <CheckMenuItem id="chkShowHints" fx:id="chkShowHints" mnemonicParsing="false" selected="true" text="Show Hints" />
+              </items>
+            </Menu>
         </menus>
       </MenuBar>
    </top>

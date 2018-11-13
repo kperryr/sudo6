@@ -2,6 +2,7 @@ package app.helper;
 
 import java.io.Serializable;
 
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import pkgGame.Cell;
 

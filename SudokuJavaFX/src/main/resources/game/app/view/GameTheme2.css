@@ -1,6 +1,7 @@
-.GridPane {
-    -fx-background-color: #CCFF99;	
+.clear-backgroud{
+	-fx-background-color: none;
 }
+
 
 .bg-black-style {
     -fx-background-color:  black;
@@ -10,9 +11,7 @@
     -fx-background-color: red;
 }
 
- .VBoxGameGrid {
-    -fx-background-color: #00FF99;	
-}
+ 
 
 .GridPaneInsets {
     -fx-background-color: black, white ;
