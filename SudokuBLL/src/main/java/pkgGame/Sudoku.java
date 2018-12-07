@@ -139,6 +139,38 @@ public class Sudoku extends LatinSquare implements Serializable {
 		return iSqrtSize;
 	}
 
+
+	private int mistakes = 0;
+
+	public void addMistakes() {
+		this.mistakes++;
+	}
+
+	public int getMistakesCount() {
+		return mistakes;
+	}
+
+	public  void iSudokuPuzzleSolved() {
+		
+		int sudopuzz[][]= getPuzzle();
+		boolean isSolvedPuzzle= true;
+		for(int i=0;i<iSize; i++) {
+			for(int j=0; j<iSize; j++) 
+				if (sudopuzz[i][j]==0) {
+					isSolvedPuzzle=false;
+				}
+			}
+		if (isSolvedPuzzle==true) {
+			System.out.println("Yay, you solved the Sudoku!");
+		}
+	}
+	
+	public boolean GameOver() {
+		return mistakes>= MaxMistakes;
+	}
+	
+	
+	
 	/**
 	 * RemoveCells - this method will remove cells (set them to zero) until the
 	 * game's difficulty is met

@@ -319,6 +319,15 @@ public class SudokuController implements Initializable {
 						//		write a getter so you can the value
 						//		Might even have a max mistake attribute in eGameDifficulty (easy has 2 mistakes, medium 4, etc)
 						//		If the number of mistakes >= max mistakes, end the game
+						
+						if(s.GameOver()== true) {
+							System.out.println("Sorry, you lost.");}
+					
+						if (!s.isValidValue(CellTo.getiRow(), CellTo.getiCol(),CellFrom.getiCellValue())) {
+							game.getSudoku().addMistakes();
+							BuildTopGrid();
+							}
+						
 						if (db.hasContent(myFormat)) {
 							Cell CellFrom = (Cell) db.getContent(myFormat);
 
